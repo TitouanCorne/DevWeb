@@ -23,28 +23,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
               </li>
+
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
+                  Créations
                 </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#" id="dropdown_chaises">Chaises</a></li>
+                  <li><a class="dropdown-item" href="#" id="dropdown_tables">Tables</a></li>
+                  <li><a class="dropdown-item" href="#" id="dropdown_divers">Divers</a></li>
                 </ul>
-                </li>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
+
     <div class="container" id="container">
-        <p>test de notre base de donnée</p>
-        <button type="submit" id="form-button" class="pure-button pure-button-primary">Afficher bd</button>
         <div class="bibliothèque_objet row" id="bibliothèque_objet">
-            
         </div>
-        
     </div>
     
 </body>
@@ -77,29 +74,36 @@
         document.getElementById('container').insertBefore(newLi3, currentDiv);
     }
     
-    function on_click() {
-                let type = "table"
-                // id_product = document.querySelector("#form-input").value;
-                if (type) {
-                    fetch('/type/?valeur=' + type)
-                        .then(response => response.json())
-                        .then(data => {
-                            for(let i = 0; i < data.count; i++){
-                                // console.log(i)
-                                addElement(data.rows,i)
-                            }
-                            
-                            console.log("coucou")
-                            console.log(data)
-                        })
-                }
-            }
-    document.querySelector("#form-button").addEventListener("click", (event) => {
-        on_click()
+    function on_click_objet(type) {
+      // effacer tous les objets qui sont affichés
+      var div = document.getElementById('container');
+      while(div.firstChild && div.removeChild(div.firstChild));
+      if (type) {
+        fetch('/type/?valeur=' + type)
+        .then(response => response.json())
+        .then(data => {
+        for(let i = 0; i < data.count; i++){
+          // console.log(i)
+          addElement(data.rows,i)
+        }
+        })
+      }        
+    }
+    
+    document.getElementById("dropdown_chaises").addEventListener("click", (event) => {
+        on_click_objet("chaise")
+        event.preventDefault();
+    })
+    document.getElementById("dropdown_tables").addEventListener("click", (event) => {
+        on_click_objet("table")
+        event.preventDefault();
+    })
+    document.getElementById("dropdown_divers").addEventListener("click", (event) => {
+        on_click_objet("divers")
         event.preventDefault();
     })
             
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </html>
